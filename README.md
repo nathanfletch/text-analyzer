@@ -21,7 +21,7 @@ Expected Output: 0;
 
 Describe: numberOfOccurrencesInText()
 
-Test: "It should return 0 occurrences of a word if text is an empty string"
+Test: "It should return 0 occurrences of a word if text is an empty string" 
 Code: 
 const text = "";
 const word = "red";
@@ -35,7 +35,7 @@ const text = "red RED Red!";
 wordCounter(word, text);
 Expected Output: 0
 
-Test: "It should return 1 occurrence of a word when the word and the text are the same."
+Test: "It should return 1 occurrence of a word when the word and the text are the same." 
 Code:
 const text = "red";
 const word = "red";
@@ -69,6 +69,86 @@ const text = "Red! Red. I like red, green, and yellow.";
 const word = "Red";
 numberOfOccurrencesInText(word, text);
 Expected Output: 3
+
+
+Describe mostUsedWords()
+
+Test: "It should return 0 when text is an empty string"
+Code: 
+const text = "";
+const mostUsedWords(text);
+Expected Output: 0;
+
+
+Test: "It should return all words in an array when text has only 1 to 3 words"
+Code:
+const text = "red green blue";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"]
+
+
+Test: "It should return the 3 most used words when text has 4 or more words"
+Code:
+const text = "red green blue red purple green blue";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"] 
+
+Test: "It should not return an array with an empty string as an element even if text includes many empty spaces"
+Code:
+const text = "red     blue   red    purple  green blue";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"] 
+
+Test: "It should ignore punctuation when counting elements."
+Code:
+const text = "red green blue red purple green blue.";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"] 
+
+Test: "It should ignore case when counting elements."
+Code:
+const text = "red green blue REd purple green blue.";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"] 
+
+Test: "It should ignore numbers when counting elements."
+Code:
+const text = "red green blue REd purple 55 55 55 55 green blue.";
+const mostUsedWords(text);
+Expected Output: ["red", "green", "blue"] 
+
+<!-- handle one word at a time -->
+<!-- call numberOfOccurrencesInText() on each element -->
+<!-- get an array of the number for each word -->
+<!-- filter repeats -->
+<!-- sort -->
+
+
+<!-- handle boundary/special cases -->
+trivial tests will go here
+<!-- .split -->
+
+<!-- call numberOfOccurrencesInText() on each element -->
+[["red", 2], ["green" 3], ["blue" 2], "red" 2, "green" 3, "green" 3, "blue" 2, "purple" 1] 
+<!-- .filter duplicates -->
+["red" 2, "green" 3, "blue" 2, "purple" 1]
+<!-- .sort -->
+["green" 3, "red" 2, "blue" 2, "purple" 1]
+<!-- .splice first 3 -->
+["green" 3, "red" 2, "blue" 2]
+<!-- output in meaningful way -->
+<!-- it seems like it's "bleeding into" or "transferring" to ui logic here -->
+
+<!-- display this hard-coded -->
+Most common words:
+<!-- display each word based on the array -->
+hi: 3
+whoa: 2
+yay: 2
+<!-- display each number -->
+
+
+
 
 
 
