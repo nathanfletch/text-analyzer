@@ -1,13 +1,19 @@
 // Utility Logic
 
-function noInputtedWord(word, text) {
-  return text.trim().length === 0 || word.trim().length === 0;
+function noInputtedWord(text, word) {
+
+  if(word) {
+    return text.trim().length === 0 || word.trim().length === 0
+  } else 
+  return text.trim().length === 0
 }
+
+
 
 // Business Logic
 
 function wordCounter(text) {
-  if (text.trim().length === 0) {
+  if (noInputtedWord(word, text)) {
     return 0;
   }
   let wordCount = 0;
@@ -40,6 +46,14 @@ function omitOffensive(text) {
   return wordArray.filter(word => {
     return !badWords.includes(word);
   })
+}
+
+function removePunctuation(text) {
+
+}
+
+function removeNumbers(text) {
+
 }
 
 function mostUsedWords(text) {
