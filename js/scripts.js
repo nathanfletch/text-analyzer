@@ -1,64 +1,75 @@
 // Utility Logic
 
 function noInputtedWord(text, word) {
-
-  if(word) {
-    return text.trim().length === 0 || word.trim().length === 0
-  } else 
-  return text.trim().length === 0
+  if (word) {
+    return text.trim().length === 0 || word.trim().length === 0;
+  } else return text.trim().length === 0;
 }
 
+function removeOffensive(text) {
+  const badWords = ["zoinks", "muppeteer", "biffaroni", "loopdaloop"];
+  const wordArray = text.trim().toLowerCase().split(" ");
+  return wordArray.filter((word) => {
+    return !badWords.includes(word);
+  });
+}
 
+function removePunctuation(text) {
+  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+}
+
+function removeNumbers(text) {
+  text.split(" ").filter((element) => !Number(element)).join(" ");
+}
+
+function removeSpaces(text) {
+  text.split(" ").filter((word) => word != "");
+}
+
+// Is this good practice? or just put all the one-line functions inside (my guess)
+// function cleanUp(text) {
+//   return removeOffensive(
+//     removeSpaces(
+//       removeNumbers(
+//         removePunctuation(
+//           text.trim().toLowerCase()
+//         )
+//       )
+//     )
+//   );
+// }
 
 // Business Logic
-
 function wordCounter(text) {
-  if (noInputtedWord(word, text)) {
+  if (noInputtedWord(text)) {
     return 0;
   }
   let wordCount = 0;
-  const wordArray = text.split(" ");
+  const wordArray = text.trim().split(" ").filter((element) => !Number(element));
   wordArray.forEach(function (element) {
-    if (!Number(element)) {
+    // if (!Number(element)) {
       wordCount++;
-    }
+    // }
   });
   return wordCount;
 }
 
 function numberOfOccurrencesInText(word, text) {
-  if (noInputtedWord(word, text)) {
+  if (noInputtedWord(text, word)) {
     return 0;
   }
-  const wordArray = text.split(" ");
+  const wordArray = removePunctuation(text).split(" ");
   let wordCount = 0;
   wordArray.forEach(function (element) {
-    if (element.toLowerCase().includes(word.toLowerCase())) {
+    if (element.toLowerCase() === word.toLowerCase()) {
       wordCount++;
     }
   });
   return wordCount;
 }
 
-function omitOffensive(text) {
-  const badWords = ["zoinks", "muppeteer", "biffaroni", "loopdaloop"];
-  const wordArray = text.trim().toLowerCase().split(" ");
-  return wordArray.filter(word => {
-    return !badWords.includes(word);
-  })
-}
-
-function removePunctuation(text) {
-
-}
-
-function removeNumbers(text) {
-
-}
-
 function mostUsedWords(text) {
-  // eventually refactor to noInputtedWord()
-  if (text.trim().length === 0) {
+  if (noInputtedWord(text)) {
     return 0;
   }
   const wordArray = text.trim().toLowerCase().split(" ");
@@ -68,17 +79,18 @@ function mostUsedWords(text) {
       uniqueWordArray.push(word);
     }
   });
-  uniqueWordArray.sort((a,b) => {
-    return numberOfOccurrencesInText(b, text) - numberOfOccurrencesInText(a, text);
+  uniqueWordArray.sort((a, b) => {
+    return (
+      numberOfOccurrencesInText(b, text) - numberOfOccurrencesInText(a, text)
+    );
   });
-  //what edge cases do we have to look at? - does numberOfOccurrencesInText handle it for me?
-  return uniqueWordArray.slice(0,3);
+  return uniqueWordArray.slice(0, 3);
 }
 
 // UI Logic
 
 function boldPassage(word, text) {
-  if (noInputtedWord(word, text)) {
+  if (noInputtedWord(text, word)) {
     return "";
   }
   let htmlString = "<p>";
@@ -107,9 +119,11 @@ $(document).ready(function () {
     $("#total-count").html(wordCount);
     $("#selected-count").html(occurrencesOfWord);
     $("#bolded-passage").html(boldPassage(word, passage));
-    mostUsed.forEach(function(word, index) {
+    mostUsed.forEach(function (word, index) {
       $("#common-word-" + index + "").html(word);
-      $("#common-count-" + index + "").html(numberOfOccurrencesInText(word, passage));
+      $("#common-count-" + index + "").html(
+        numberOfOccurrencesInText(word, passage)
+      );
     });
   });
 });
